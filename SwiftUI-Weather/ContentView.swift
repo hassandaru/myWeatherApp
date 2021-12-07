@@ -21,6 +21,17 @@ struct ContentView: View {
 //                    .background(Color.blue)
 //                    .frame(width: 200, height: 200)
                     .padding()
+                VStack(spacing: 10) {
+                    Image(systemName: "cloud.sun.fill")
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 180, height: 180)
+                    Text("34°C")
+                        .font(.system(size: 70, weight: .medium))
+                        .foregroundColor(.white)
+                    
+                }
                 Spacer() //basically used to move the text to the top of the frame
                 
             }
