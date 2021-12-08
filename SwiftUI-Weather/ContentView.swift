@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isNight = false
+    
     var body: some View {
         ZStack {
-            BackgroundView(topColor: .blue, bottomColor: Color("lightBlue"))
+            // binding basically enforces that the value for the object stays the same
+            BackgroundView(isNight: $isNight)
             VStack {
-                CityTextView(cityName: "brisbane. Queensland")
-                mainWeatherView(ImageName: "cloud.sun.fill", temperature: 76)
-                
+                CityTextView(cityName: "Brisbane. Queensland")
+                mainWeatherView(isNight: $isNight, temperature: 76)
                 HStack(spacing: 20) {
                     
                     weatherDayView(dayOfWeek: "TUE",
@@ -37,7 +40,7 @@ struct ContentView: View {
                 }
                 Spacer() //basically used to move the text to the top of the frame
                 Button {
-                    print("tapped")
+                    isNight.toggle()
                 } label: {
                     WeatherButton(title: "Change Day Time",
                                   textColor: .blue,
@@ -59,12 +62,7 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct weatherDay {
-    var dayOfWeek: String
-    var ImageName: String
-    var temperature: Int
-    
-}
+
 
 struct weatherDayView: View {
     var dayOfWeek: String
@@ -89,11 +87,11 @@ struct weatherDayView: View {
 }
 
 struct BackgroundView: View {
-    var topColor: Color
-    var bottomColor: Color
+    //binding forces the state to stay the same
+    @Binding var isNight: Bool
     
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [topColor, bottomColor]),
+        LinearGradient(gradient: Gradient(colors: [isNight ? .black : .blue, isNight ? .gray : Color("lightBlue")]),
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
@@ -111,12 +109,11 @@ struct CityTextView: View {
 }
 
 struct mainWeatherView: View {
-    var ImageName: String
+    @Binding var isNight: Bool
     var temperature: Int
-    
     var body: some View {
         VStack(spacing: 10) {
-            Image(systemName: ImageName)
+            Image(systemName: isNight ? "moon.stars.fill" : "cloud.sun.fill")
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
