@@ -31,6 +31,10 @@ class Weather {
         self.city = mycity
         
     }
+    func getCity() -> String {
+        return self.city
+    }
+    
     func setCityName(cityName: String)
     {
         self.city = cityName
@@ -38,6 +42,9 @@ class Weather {
     func addDayData(weatherDayData: WeatherDay)
     {
         self.myWeatherDay.append(weatherDayData)
+    }
+    func getWeatherDayListData() -> Array<WeatherDay> {
+        return self.myWeatherDay
     }
    
     

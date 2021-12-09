@@ -13,48 +13,37 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
+            let selectedWeather = getWeatherValues()
             // binding basically enforces that the value for the object stays the same
             BackgroundView(isNight: $isNight)
+            
             VStack {
-                CityTextView(cityName: "Brisbane. Queensland")
-                mainWeatherView(isNight: $isNight, temperature: 76)
-                HStack(spacing: 20) {
-                    
-                    weatherDayView(dayOfWeek: "TUE",
-                                   ImageName: "cloud.sun.fill",
-                                   temperature: 76)
-                    weatherDayView(dayOfWeek: "WED",
-                                   ImageName: "sun.max.fill",
-                                   temperature: 70)
-                    weatherDayView(dayOfWeek: "THU",
-                                   ImageName: "wind",
-                                   temperature: 66)
-                    weatherDayView(dayOfWeek: "FRI",
-                                   ImageName: "sunset.fill",
-                                   temperature: 60)
-                    weatherDayView(dayOfWeek: "SAT",
-                                   ImageName: "moon.stars.fill",
-                                   temperature: 55)
-                    
-                 
-                }
-                Spacer() //basically used to move the text to the top of the frame
-                Button {
-                    isNight.toggle()
-                } label: {
-                    WeatherButton(title: "Change Day Time",
-                                  textColor: .blue,
-                                  backgroundColor: .white)
-
-                }
-                Spacer()
-            }
+                CityTextView(cityName: selectedWeather.getCity())
                 
-            
-            
+                //                first object
+                mainWeatherView(isNight: $isNight, todayWeather:
+                                    selectedWeather.getWeatherDayListData()[0])
+                
+                
+                HStack(spacing: 20) {
+                    weatherDayView(weatherDays: selectedWeather.getWeatherDayListData())
+                }
+                
+            }
+            Spacer() //basically used to move the text to the top of the frame
+            Button {
+                isNight.toggle()
+            } label: {
+                WeatherButton(title: "Change Day Time",
+                              textColor: .blue,
+                              backgroundColor: .white)
+                
+            }
+            Spacer()
         }
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
@@ -64,27 +53,7 @@ struct ContentView_Previews: PreviewProvider {
 
 
 
-struct weatherDayView: View {
-    var dayOfWeek: String
-    var ImageName: String
-    var temperature: Int
-    
-    var body: some View {
-        VStack {
-            Text(dayOfWeek)
-                .font(.system(size: 18, weight: .medium, design: .default))
-                .foregroundColor(.white)
-            Image(systemName: ImageName)
-                .renderingMode(.original)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-            Text("\(temperature)°")
-                .font(.system(size: 28, weight: .medium))
-                .foregroundColor(.white)
-        }
-    }
-}
+
 
 struct BackgroundView: View {
     //binding forces the state to stay the same
@@ -110,7 +79,7 @@ struct CityTextView: View {
 
 struct mainWeatherView: View {
     @Binding var isNight: Bool
-    var temperature: Int
+    var todayWeather: WeatherDay
     var body: some View {
         VStack(spacing: 10) {
             Image(systemName: isNight ? "moon.stars.fill" : "cloud.sun.fill")
@@ -118,13 +87,58 @@ struct mainWeatherView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 180, height: 180)
-            Text("\(temperature)°C")
+            Text("\(todayWeather.temperature)°C")
                 .font(.system(size: 70, weight: .medium))
                 .foregroundColor(.white)
                 .padding(.bottom)
-            }
-            .padding(.bottom, 40)
+        }
+        .padding(.bottom, 40)
     }
 }
 
+//struct weatherDayView: View {
+//    var todayWeather: WeatherDay
+//    var body: some View {
+//        VStack {
+//            Text(todayWeather.dayOfWeek)
+//                .font(.system(size: 18, weight: .medium, design: .default))
+//                .foregroundColor(.white)
+//            Image(systemName: todayWeather.ImageName)
+//                .renderingMode(.original)
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//                .frame(width: 40, height: 40)
+//            Text("\(todayWeather.temperature)°")
+//                .font(.system(size: 28, weight: .medium))
+//                .foregroundColor(.white)
+//        }
+//    }
+//}
 
+struct weatherDayView: View {
+    //this is where i get all the errors like
+    //closure expression is unused
+    //expected { in struct
+    //expressions are not allowed at the top level.
+    
+    @State var weatherDays: [WeatherDay]
+    
+    var body: some View {
+        forEach(weatherDays) { singleDay in
+            
+            VStack {
+                Text(singleDay.dayOfWeek)
+                    .font(.system(size: 18, weight: .medium, design: .default))
+                    .foregroundColor(.white)
+                Image(systemName: singleDay.ImageName)
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
+                Text("\(singleDay.temperature)°")
+                    .font(.system(size: 28, weight: .medium))
+                    .foregroundColor(.white)
+            }
+        }
+    }
+}
