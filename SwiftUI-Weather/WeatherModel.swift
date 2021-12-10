@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct WeatherDay {
+struct WeatherDay : Hashable {
     var dayOfWeek: String
     var ImageName: String
     var temperature: Int

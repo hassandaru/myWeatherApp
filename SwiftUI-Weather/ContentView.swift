@@ -28,18 +28,21 @@ struct ContentView: View {
                 HStack(spacing: 20) {
                     weatherDayView(weatherDays: selectedWeather.getWeatherDayListData())
                 }
-                
+                Spacer() //basically used to move the text to the top of the frame
+
             }
             Spacer() //basically used to move the text to the top of the frame
-            Button {
-                isNight.toggle()
-            } label: {
-                WeatherButton(title: "Change Day Time",
-                              textColor: .blue,
-                              backgroundColor: .white)
-                
+            VStack {
+                Button {
+                    isNight.toggle()
+                } label: {
+                    WeatherButton(title: "Change Day Time",
+                                  textColor: .blue,
+                                  backgroundColor: .white)
+                    
+                }
             }
-            Spacer()
+            
         }
     }
 }
@@ -124,7 +127,7 @@ struct weatherDayView: View {
     @State var weatherDays: [WeatherDay]
     
     var body: some View {
-        forEach(weatherDays) { singleDay in
+        ForEach(weatherDays, id: \.self) { singleDay in
             
             VStack {
                 Text(singleDay.dayOfWeek)
