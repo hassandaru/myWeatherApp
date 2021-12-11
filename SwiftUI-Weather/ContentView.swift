@@ -29,19 +29,20 @@ struct ContentView: View {
                     weatherDayView(weatherDays: selectedWeather.getWeatherDayListData())
                 }
                 Spacer() //basically used to move the text to the top of the frame
-
-            }
-            Spacer() //basically used to move the text to the top of the frame
-            VStack {
-                Button {
-                    isNight.toggle()
-                } label: {
-                    WeatherButton(title: "Change Day Time",
-                                  textColor: .blue,
-                                  backgroundColor: .white)
-                    
+               
+                VStack {
+                    Button {
+                        isNight.toggle()
+                    } label: {
+                        WeatherButton(title: "Change Day Time",
+                                      textColor: .blue,
+                                      backgroundColor: .white)
+                        
+                    }
                 }
+                Spacer() //basically used to move the text to the top of the frame
             }
+            
             
         }
     }
@@ -86,8 +87,8 @@ struct mainWeatherView: View {
     var body: some View {
         VStack(spacing: 10) {
             Image(systemName: isNight ? "moon.stars.fill" : "cloud.sun.fill")
-                .renderingMode(.original)
                 .resizable()
+                .renderingMode(.original)
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 180, height: 180)
             Text("\(todayWeather.temperature)°C")
@@ -134,8 +135,9 @@ struct weatherDayView: View {
                     .font(.system(size: 18, weight: .medium, design: .default))
                     .foregroundColor(.white)
                 Image(systemName: singleDay.ImageName)
-                    .renderingMode(.original)
                     .resizable()
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.pink, .orange, .green)
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 40, height: 40)
                 Text("\(singleDay.temperature)°")
