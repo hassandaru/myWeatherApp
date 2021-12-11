@@ -100,25 +100,6 @@ struct mainWeatherView: View {
     }
 }
 
-//struct weatherDayView: View {
-//    var todayWeather: WeatherDay
-//    var body: some View {
-//        VStack {
-//            Text(todayWeather.dayOfWeek)
-//                .font(.system(size: 18, weight: .medium, design: .default))
-//                .foregroundColor(.white)
-//            Image(systemName: todayWeather.ImageName)
-//                .renderingMode(.original)
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//                .frame(width: 40, height: 40)
-//            Text("\(todayWeather.temperature)°")
-//                .font(.system(size: 28, weight: .medium))
-//                .foregroundColor(.white)
-//        }
-//    }
-//}
-
 struct weatherDayView: View {
     //this is where i get all the errors like
     //closure expression is unused
